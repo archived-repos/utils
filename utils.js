@@ -55,7 +55,7 @@
 			return ( typeof str === 'string' );
 		},
 		isNumber: function (n) {
-			return (n instanceof Number);
+			return ( typeof n === 'number' );
 		},
 		isObject: function(myVar,type){ if( myVar instanceof Object ) return ( type === 'any' ) ? true : ( typeof myVar === (type || 'object') ); else return false; },
 		key: function(o,full_key,value){
