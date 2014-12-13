@@ -34,12 +34,20 @@ describe('factory: security.session', function () {
 		expect( o.foo ).toBe('changed');
 	});
 
-	it('_.key set', function () {
+	it('_.key set 2nd level', function () {
 		var o = {}
 
 		_.key(o, 'foo.bar', 'foobar');
 
 		expect( o.foo.bar ).toBe('foobar');
+	});
+
+	it('_.extend', function () {
+		var o = { foo: 'bar' };
+
+		_.extend(o, { crash: 'test' }, { test: 'dummy' });
+
+		expect( JSON.stringify(o) ).toBe('{"foo":"bar","crash":"test","test":"dummy"}');
 	});
 
 });
