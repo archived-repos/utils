@@ -1,0 +1,23 @@
+{
+    "name": "jstool-utils",
+    "main": "utils.js",
+    "version": "0.0.2",
+    "homepage": "https://github.com/jstools/utils",
+    "authors": [
+        "Jesús Germade <jesus@germade.es>"
+    ],
+    "description": "simple javascript utils handler",
+    "keywords": [
+        "javascript",
+        "jstools",
+        "utils"
+    ],
+    "license": "MIT",
+    "ignore": [
+        "**/.*",
+        "node_modules",
+        "bower_components",
+        "test",
+        "tests"
+    ]
+}
