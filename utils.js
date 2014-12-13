@@ -44,6 +44,13 @@
 })(function () {
 	'use strict';
 
+	function _extend (source, values) {
+		for( var key in values ) {
+			source[key] = values[key];
+		}
+		return source;
+	}
+
 	var _ = {
 		isFunction: function (fn) {
 			return (fn instanceof Function);
@@ -85,14 +92,15 @@
     		}
     	},
     	keys: Object.keys,
-    	extend: function (source, values) {
-    		if( source instanceof Object && values instanceof Object ) {
-    			for( var key in values ) {
-	    			source[key] = values[key];
-	    		}
-	    		return source;
+    	extend: function () {
+    		if( arguments.length > 1 ) {
+    			var target = [].shift.call(arguments), o = [].shift.call(arguments);
+
+    			while( o ) {
+    				_extend(target, o);
+    				o = [].shift.call(arguments);
+    			}
     		}
-    		return false;
     	}
 	};
 

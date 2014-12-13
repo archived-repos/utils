@@ -70,12 +70,12 @@ module.exports = function(grunt) {
 
   });
 
-  grunt.registerTask('dev', ['jshint', 'karma', 'uglify', 'watch']);
+  grunt.registerTask('dev', ['jshint', 'uglify', 'karma', 'watch']);
 
   grunt.registerTask('git:increase-version', [ 'shell:git-add', 'shell:git-commit-version', 'shell:git-push' ]);
 
   grunt.registerTask('publish', [ 'uglify:min', 'increase-version', 'git:increase-version', 'shell:npm-publish' ]);
 
-  grunt.registerTask('test', [ 'karma' ]);
+  grunt.registerTask('test', [ 'uglify', 'karma' ]);
 
 };
