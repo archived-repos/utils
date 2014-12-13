@@ -60,11 +60,11 @@
 		isObject: function(myVar,type){ if( myVar instanceof Object ) return ( type === 'any' ) ? true : ( typeof myVar === (type || 'object') ); else return false; },
 		key: function(o,full_key,value){
     		if(! o instanceof Object) return false;
-    		var key, keys = full_key.split('.'), in_keys = o || {};
+    		var key, keys = full_key.split('.');
     		if(value !== undefined) {
     			if(keys.length) {
     				key = keys.shift();
-    				next_key = keys.shift();
+    				var next_key = keys.shift();
     				while( next_key ) {
     					if( !o[key] ) o[key] = {};
     					o = o[key];
@@ -72,10 +72,11 @@
     					next_key = keys.shift();
     				}
     				o[key] = value;
+    				return value;
     			}
-    			return value;
+    			return false;
     		} else {
-    			for(var k=0, len = keys.length;k<len;k++) {
+    			for(var k=0, len = keys.length, in_keys = o || {}; k < len ; k++ ) {
     			    key = keys[k];
     			    if( key in in_keys ) in_keys = in_keys[keys[k]] || {};
     				else return false;

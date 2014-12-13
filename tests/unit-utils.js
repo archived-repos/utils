@@ -20,4 +20,26 @@ describe('factory: security.session', function () {
 		expect( _.isArray([]) ).toBe(true);
 	});
 
+	it('_.key get', function () {
+		var o = { foo: 'bar' }
+
+		expect( _.key(o, 'foo') ).toBe('bar');
+	});
+
+	it('_.key set', function () {
+		var o = { foo: 'bar' }
+
+		_.key(o, 'foo', 'changed');
+
+		expect( o.foo ).toBe('changed');
+	});
+
+	it('_.key set', function () {
+		var o = {}
+
+		_.key(o, 'foo.bar', 'foobar');
+
+		expect( o.foo.bar ).toBe('foobar');
+	});
+
 });
