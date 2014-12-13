@@ -1,40 +1,40 @@
 {
-  "name": "jstool-utils",
-  "version": "0.0.2",
-  "description": "utils jstool example",
-  "main": "utils.js",
-  "scripts": {
-    "test": "grunt test"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/jstools/utils.js.git"
-  },
-  "keywords": [
-    "javascript",
-    "jstools",
-    "utils"
-  ],
-  "author": "Jesús Manuel Germade Castiñeiras <jesus@germade.es>",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/jstools/utils.js/issues"
-  },
-  "homepage": "https://github.com/jstools/utils.js",
-  "devDependencies": {
-    "grunt": "^0.4.5",
-    "grunt-contrib-jshint": "^0.10.0",
-    "grunt-contrib-uglify": "latest",
-    "grunt-contrib-watch": "^0.6.1",
-    "grunt-increase-version": "latest",
-    "grunt-karma": "^0.9.0",
-    "grunt-shell": "latest",
-    "jasmine": "^2.1.1",
-    "jasmine-core": "^2.1.3",
-    "karma": "^0.12.28",
-    "karma-chrome-launcher": "^0.1.4",
-    "karma-jasmine": "^0.3.2",
-    "load-grunt-tasks": "latest",
-    "time-grunt": "latest"
-  }
+    "name": "jstool-utils",
+    "version": "0.0.3",
+    "description": "utils jstool example",
+    "main": "utils.js",
+    "scripts": {
+        "test": "grunt test"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/jstools/utils.js.git"
+    },
+    "keywords": [
+        "javascript",
+        "jstools",
+        "utils"
+    ],
+    "author": "Jesús Manuel Germade Castiñeiras <jesus@germade.es>",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/jstools/utils.js/issues"
+    },
+    "homepage": "https://github.com/jstools/utils.js",
+    "devDependencies": {
+        "grunt": "^0.4.5",
+        "grunt-contrib-jshint": "^0.10.0",
+        "grunt-contrib-uglify": "latest",
+        "grunt-contrib-watch": "^0.6.1",
+        "grunt-increase-version": "latest",
+        "grunt-karma": "^0.9.0",
+        "grunt-shell": "latest",
+        "jasmine": "^2.1.1",
+        "jasmine-core": "^2.1.3",
+        "karma": "^0.12.28",
+        "karma-chrome-launcher": "^0.1.4",
+        "karma-jasmine": "^0.3.2",
+        "load-grunt-tasks": "latest",
+        "time-grunt": "latest"
+    }
 }
