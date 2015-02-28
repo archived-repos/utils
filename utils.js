@@ -25,7 +25,6 @@
  * 
  */
 
-
 (function (definition) {
 	'use strict';
 	
@@ -51,19 +50,25 @@
 		return source;
 	}
 
+	function _isType (type) {
+        return function (o) {
+            return (typeof o === type);
+        };
+    }
+
+    function _instanceOf (_constructor) {
+        return function (o) {
+            return ( o instanceof _constructor );
+        };
+    }
+
 	var _ = {
-		isFunction: function (fn) {
-			return (fn instanceof Function);
-		},
-		isArray: function (list) {
-			return (list instanceof Array);
-		},
-		isString: function (str) {
-			return ( typeof str === 'string' );
-		},
-		isNumber: function (n) {
-			return ( typeof n === 'number' );
-		},
+		isFunction: _isType('function'),
+        isString: _isType('string'),
+        isNumber: _isType('number'),
+        isArray: _instanceOf(Array),
+        isDate: _instanceOf(Date),
+        isRegExp: _instanceOf(RegExp),
 		isObject: function(myVar,type){ if( myVar instanceof Object ) return ( type === 'any' ) ? true : ( typeof myVar === (type || 'object') ); else return false; },
 		key: function(o,full_key,value){
     		if(! o instanceof Object) return false;

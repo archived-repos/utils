@@ -1,4 +1,4 @@
-describe('factory: security.session', function () {
+describe('jstool-utils: utils.js', function () {
 
 	it('_.isFunction', function () {
 		expect( _.isFunction(function () {}) ).toBe(true);
