@@ -62,6 +62,122 @@
         };
     }
 
+
+    var RE_$$ = /^\$\$/,
+            auxArray = [];
+
+        function _extendByType (orig, sanitize) {
+            if( orig instanceof Array ) {
+                return _deepExtend([], orig, sanitize);
+            } else if( orig instanceof Object ) {
+                return _deepExtend({}, orig, sanitize);
+            }
+            return orig;
+        }
+
+        function _deepExtend (dest, orig, sanitize) {
+
+            if( dest === undefined ) {
+
+                return _extendByType(orig);
+
+            }
+
+            if( orig instanceof Array ) {
+
+                if( !dest instanceof Array ) {
+                    return _deepExtend([], orig, sanitize);
+                }
+
+                for( var i = 0, len = orig.length; i < len; i++ ) {
+
+                    if( dest[i] ) {
+                        dest[i] = _deepExtend(dest[i], orig[i], sanitize);
+                    } else {
+                        dest.push(_extendByType(orig[i]));
+                    }
+                }
+
+            } else if( orig instanceof Object ) {
+
+                if( !dest instanceof Object ) {
+                    return _deepExtend({}, orig, sanitize);
+                }
+
+                for( var key in orig ) {
+                    if( !sanitize || !RE_$$.test(key) ) {
+
+                        dest[key] = _deepExtend(dest[key], orig[key], sanitize);
+                    }
+                }
+            }
+
+            return dest;
+        }
+
+        function deepExtend () {
+
+            if( arguments.length < 2 ) {
+                return arguments[0];
+            }
+
+            var first = auxArray.shift.apply(arguments),
+                next = auxArray.shift.apply(arguments);
+
+            while( next ) {
+                _deepExtend(first, next);
+                next = auxArray.shift.apply(arguments);
+            }
+
+            return first;
+        }
+
+        function deepAssign(dest, orig){
+            
+            if( orig === undefined ) {
+
+                return undefined;
+
+            }
+
+            if( orig instanceof Array ) {
+
+                for( var i = 0, len = orig.length; i < len; i++ ) {
+                    if( dest[i] ) {
+                        dest[i] = deepAssign(dest[i], orig[i]);
+                    } else {
+                        dest.push( deepAssign(dest[i], orig[i]) );
+                    }
+                }
+
+                dest.splice(i);
+
+            } else if( orig instanceof Object ) {
+
+                for( var key in orig ) {
+                    dest[key] = deepAssign(dest[key], orig[key]);
+                }
+
+                for( var keyD in dest ) {
+                    if( orig[keyD] === undefined ){
+                        delete dest[keyD];
+                    }
+                }
+            }
+            else {
+                dest = orig;
+            }
+
+            return dest;
+
+        }
+
+        function sanitize (obj) {
+
+            return _deepExtend({}, obj, true);
+        }
+
+
     function _proccessPipe (pipe, args) {
         var result = pipe[0].apply(null, args);
 
@@ -89,8 +205,8 @@
         isArray: _instanceOf(Array),
         isDate: _instanceOf(Date),
         isRegExp: _instanceOf(RegExp),
-		isObject: function(myVar,type){ if( myVar instanceof Object ) return ( type === 'any' ) ? true : ( typeof myVar === (type || 'object') ); else return false; },
-		key: function(o,full_key,value){
+		isObject: function (myVar,type){ if( myVar instanceof Object ) return ( type === 'any' ) ? true : ( typeof myVar === (type || 'object') ); else return false; },
+		key: function (o,full_key,value){
     		if(! o instanceof Object) return false;
     		var key, keys = full_key.split('.');
     		if(value !== undefined) {
@@ -127,6 +243,10 @@
     			}
     		}
     	},
+        sanitize: sanitize,
+        deepExtend: deepExtend,
+        deepAssign: deepAssign,
+
         pipe: function () {
             var pipe = [];
 
@@ -144,7 +264,7 @@
             return pipeFn;
         },
         lazy: function (value) {
-
+            return new Lazy(value);
         }
 	};
 
