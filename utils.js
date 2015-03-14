@@ -62,6 +62,26 @@
         };
     }
 
+    function _proccessPipe (pipe, args) {
+        var result = pipe[0].apply(null, args);
+
+        for( var i = 1, len = pipe.length; i < len; i++ ) {
+            result = pipe[i](result);
+        }
+
+        return result;
+    }
+
+    function _addToPipe (pipe, args) {
+        for( var i = 0, len = args.length; i < len; i++ ) {
+            if( !args[i] instanceof Function ) {
+                throw 'only Functions are allowed as pipe arguments';
+            } else {
+                pipe.push(args[i]);
+            }
+        }
+    }
+
 	var _ = {
 		isFunction: _isType('function'),
         isString: _isType('string'),
@@ -106,8 +126,54 @@
     				o = [].shift.call(arguments);
     			}
     		}
-    	}
+    	},
+        pipe: function () {
+            var pipe = [];
+
+            _addToPipe(pipe, arguments);
+
+            var pipeFn = function () {
+                return _proccessPipe(pipe, arguments);
+            };
+
+            pipeFn.pipe = function () {
+                _addToPipe(pipe, arguments);
+                return pipeFn;
+            };
+
+            return pipeFn;
+        },
+        lazy: function (value) {
+
+        }
 	};
+
+    function Lazy (value) {
+        this.value = value;
+    }
+
+    Lazy.prototype.each = function (func) {
+        var arg = this.value;
+
+        for( var i = 0, len = arg.length; i < len; i++ ) {
+            func.call(null, arg[i]);
+        }
+        return this;
+    };
+
+    Lazy.prototype.indexOf = function (comparator) {
+        var arg = this.value;
+
+        if( comparator instanceof Function ) {
+            for( var i = 0, len = arg.length; i < len; i++ ) {
+                if( comparator(arg[i]) ) {
+                    return i;
+                }
+            }
+        } else return arg.indexOf(comparator);
+
+        return -1;
+    };
 
 	return _;
 });
