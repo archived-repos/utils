@@ -62,6 +62,44 @@
         };
     }
 
+    function key (o,full_key,value){
+        if(! o instanceof Object) return false;
+        var oKey, keys = full_key.split('.');
+        if(value !== undefined) {
+            if(keys.length) {
+                oKey = keys.shift();
+                var next_key = keys.shift();
+                while( next_key ) {
+                    if( !o[oKey] ) o[oKey] = {};
+                    o = o[oKey];
+                    oKey = next_key;
+                    next_key = keys.shift();
+                }
+                o[oKey] = value;
+                return value;
+            }
+            return false;
+        } else {
+            for(var k=0, len = keys.length, in_keys = o || {}; k < len ; k++ ) {
+                oKey = keys[k];
+                if( oKey in in_keys ) in_keys = in_keys[keys[k]] || {};
+                else return false;
+            }
+            return in_keys;
+        }
+    }
+
+    function extend () {
+        if( arguments.length > 1 ) {
+            var target = [].shift.call(arguments), o = [].shift.call(arguments);
+
+            while( o ) {
+                _extend(target, o);
+                o = [].shift.call(arguments);
+            }
+        }
+    }
+
 
     var RE_$$ = /^\$\$/,
             auxArray = [];
@@ -198,6 +236,60 @@
         }
     }
 
+    function _eachInList( list, iteratee, thisArg ) {
+        for( var i = 0, len = list.length; i < len ; i++ ) {
+            iteratee.apply(thisArg, [ list[i], i ]);
+        }
+    }
+
+    function _eachInObject( o, iteratee, thisArg ) {
+        for( var key in o ) {
+            iteratee.call(thisArg, [o[key], key]);
+        }
+    }
+
+    function each (o, iteratee, thisArg) {
+        if( o instanceof Array ) {
+            _eachInList(o, iteratee, thisArg);
+        } else if( o instanceof Object ) {
+            _eachInObject(o, iteratee, thisArg);
+        }
+    }
+
+    function indexOf (list, comparator) {
+        
+        if( comparator instanceof Function ) {
+            for( var i = 0, len = list.length; i < len; i++ ) {
+                if( comparator(list[i]) ) {
+                    return i;
+                }
+            }
+        } else return list.indexOf(comparator);
+
+        return -1;
+    }
+
+    function drop (list, comparator) {
+
+        var i, len;
+        
+        if( comparator instanceof Function ) {
+            for( i = 0, len = list.length; i < len; i++ ) {
+                if( comparator(list[i]) ) {
+                    list.splice(i, 1);
+                    i--;
+                }
+            }
+        } else {
+            for( i = 0, len = list.length; i < len; i++ ) {
+                if( list[i] === comparator ) {
+                    list.splice(i, 1);
+                    i--;
+                }
+            }
+        }
+    }
+
 	var _ = {
 		isFunction: _isType('function'),
         isString: _isType('string'),
@@ -206,46 +298,19 @@
         isDate: _instanceOf(Date),
         isRegExp: _instanceOf(RegExp),
 		isObject: function (myVar,type){ if( myVar instanceof Object ) return ( type === 'any' ) ? true : ( typeof myVar === (type || 'object') ); else return false; },
-		key: function (o,full_key,value){
-    		if(! o instanceof Object) return false;
-    		var key, keys = full_key.split('.');
-    		if(value !== undefined) {
-    			if(keys.length) {
-    				key = keys.shift();
-    				var next_key = keys.shift();
-    				while( next_key ) {
-    					if( !o[key] ) o[key] = {};
-    					o = o[key];
-    					key = next_key;
-    					next_key = keys.shift();
-    				}
-    				o[key] = value;
-    				return value;
-    			}
-    			return false;
-    		} else {
-    			for(var k=0, len = keys.length, in_keys = o || {}; k < len ; k++ ) {
-    			    key = keys[k];
-    			    if( key in in_keys ) in_keys = in_keys[keys[k]] || {};
-    				else return false;
-    			}
-    			return in_keys;
-    		}
-    	},
-    	keys: Object.keys,
-    	extend: function () {
-    		if( arguments.length > 1 ) {
-    			var target = [].shift.call(arguments), o = [].shift.call(arguments);
 
-    			while( o ) {
-    				_extend(target, o);
-    				o = [].shift.call(arguments);
-    			}
-    		}
-    	},
+		key: key,
+    	keys: Object.keys,
+
+    	extend: extend,
+
         sanitize: sanitize,
         deepExtend: deepExtend,
         deepAssign: deepAssign,
+
+        each: each,
+        indexOf: indexOf,
+        drop: drop,
 
         pipe: function () {
             var pipe = [];
@@ -263,37 +328,21 @@
 
             return pipeFn;
         },
-        lazy: function (value) {
-            return new Lazy(value);
+        chain: function (value) {
+            return new Chain(value);
         }
 	};
 
-    function Lazy (value) {
+    function Chain (value) {
         this.value = value;
     }
 
-    Lazy.prototype.each = function (func) {
-        var arg = this.value;
-
-        for( var i = 0, len = arg.length; i < len; i++ ) {
-            func.call(null, arg[i]);
-        }
-        return this;
-    };
-
-    Lazy.prototype.indexOf = function (comparator) {
-        var arg = this.value;
-
-        if( comparator instanceof Function ) {
-            for( var i = 0, len = arg.length; i < len; i++ ) {
-                if( comparator(arg[i]) ) {
-                    return i;
-                }
-            }
-        } else return arg.indexOf(comparator);
-
-        return -1;
-    };
+    _eachInList(['each', 'indexOf', 'drop'], function (nameFn) {
+        Chain.prototype[nameFn] = function () {
+            [].unshift.call(arguments, this.value);
+            _[nameFn].apply(null, arguments);
+        };
+    });
 
 	return _;
 });

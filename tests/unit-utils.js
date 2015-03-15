@@ -50,4 +50,21 @@ describe('jstool-utils: utils.js', function () {
 		expect( JSON.stringify(o) ).toBe('{"foo":"bar","crash":"test","test":"dummy"}');
 	});
 
+	it('_.extend no deep', function () {
+		var o = { foo: 'bar' };
+
+		_.extend(o, { crash: 'test', test: { dummy: 'oO' } }, { test: 'dummy' });
+
+		expect( JSON.stringify(o) ).toBe('{"foo":"bar","crash":"test","test":"dummy"}');
+	});
+
+	it('_.deepExtend', function () {
+
+		var o = {};
+
+		_.extend(o, { crash: 'test', test: { dummy: 'oO' } }, { test: { foo: 'bar' } });
+
+		// expect( JSON.stringify(o) ).toBe('{"crash":"test","test":{"dummy":"oO","foo":"bar"}}');
+	});
+
 });
