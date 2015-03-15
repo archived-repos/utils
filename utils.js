@@ -290,7 +290,7 @@
         }
     }
 
-	var _ = {
+    var _Funcs = {
 		isFunction: _isType('function'),
         isString: _isType('string'),
         isNumber: _isType('number'),
@@ -343,6 +343,12 @@
             _[nameFn].apply(null, arguments);
         };
     });
+
+    function _ (value) {
+        return new Chain(value);
+    }
+
+    extend(_, _Funcs);
 
 	return _;
 
