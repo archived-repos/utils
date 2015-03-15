@@ -269,7 +269,7 @@
         return -1;
     }
 
-    function drop (list, comparator) {
+    function remove (list, comparator) {
 
         var i, len;
         
@@ -310,7 +310,7 @@
 
         each: each,
         indexOf: indexOf,
-        drop: drop,
+        remove: remove,
 
         pipe: function () {
             var pipe = [];
@@ -337,7 +337,7 @@
         this.value = value;
     }
 
-    _eachInList(['each', 'indexOf', 'drop'], function (nameFn) {
+    _eachInList(['key', 'keys', 'each', 'indexOf', 'remove'], function (nameFn) {
         Chain.prototype[nameFn] = function () {
             [].unshift.call(arguments, this.value);
             _[nameFn].apply(null, arguments);
@@ -345,5 +345,5 @@
     });
 
 	return _;
-    
+
 }, this);
