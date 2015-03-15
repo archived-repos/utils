@@ -25,18 +25,18 @@
  * 
  */
 
-(function (definition) {
+(function (definition, root) {
 	'use strict';
 	
-	if ( typeof window === 'undefined' ) {
+	if ( typeof root === 'undefined' ) {
 		if ( typeof module !== 'undefined' ) {
 			module.exports = definition();
 		}
 	} else {
-		if ( window.fn ) {
+		if ( root.fn ) {
 			fn.define('_', definition );
-		} else if( !window._ ) {
-			window._ = definition();
+		} else if( !root._ ) {
+			root._ = definition();
 		}
 	}
 
@@ -345,4 +345,5 @@
     });
 
 	return _;
-});
+    
+}, this);
