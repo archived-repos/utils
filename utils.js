@@ -43,12 +43,21 @@
 })(function () {
 	'use strict';
 
-	function _extend (source, values) {
-		for( var key in values ) {
-			source[key] = values[key];
-		}
-		return source;
-	}
+    function _extend () {
+        var auxArray = [],
+            dest = auxArray.shift.call(arguments),
+            src = auxArray.shift.call(arguments),
+            key;
+
+        while( src ) {
+            for( key in src ) {
+                dest[key] = src[key];
+            }
+            src = auxArray.shift.call(arguments);
+        }
+
+        return dest;
+    }
 
 	function _isType (type) {
         return function (o) {
