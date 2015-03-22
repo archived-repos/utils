@@ -299,6 +299,46 @@
         }
     }
 
+    function matchAll (o, filters) {
+        for( var key in filters ) {
+            if( o[key] !== filters[key] ) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    function matchAny (o, filters) {
+        for( var key in filters ) {
+            if( o[key] === filters[key] ) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    function find (list, filters) {
+        for( var i = 0, len = list.length ; i < len ; i++ ) {
+            if( matchAll(list[i], filters) ) {
+                return list[i];
+            }
+        }
+
+        return false;
+    }
+
+    function filter (list, filters) {
+        var newList = [];
+
+        for( var i = 0, len = list.length ; i < len ; i++ ) {
+            if( matchAll(list[i], filters) ) {
+                newList.push(list[i]);
+            }
+        }
+
+        return newList;
+    }
+
     var _Funcs = {
 		isFunction: _isType('function'),
         isString: _isType('string'),
@@ -312,6 +352,10 @@
     	keys: Object.keys,
 
     	extend: extend,
+        matchAll: matchAll,
+        matchAny: matchAny,
+        find: find,
+        filter: filter,
 
         sanitize: sanitize,
         deepExtend: deepExtend,
