@@ -67,6 +67,15 @@ describe('jstool-utils: utils.js', function () {
 		expect( JSON.stringify(o) ).toBe('{"crash":"test","test":{"dummy":"oO","foo":"bar"}}');
 	});
 
+	it('_.merge', function () {
+
+		var o = {};
+
+		_.merge(o, { crash: 'test', test: { list: [1,2,3] } }, { test: { list: [4,5,6] } });
+
+		expect( JSON.stringify(o) ).toBe('{"crash":"test","test":{"list":[1,2,3,4,5,6]}}');
+	});
+
 	it('_.joinPath', function () {
 		expect( _.joinPath('foo', 'bar') ).toBe('foo/bar');
 	});

@@ -43,22 +43,6 @@
 })(function () {
 	'use strict';
 
-    function _extend () {
-        var auxArray = [],
-            dest = auxArray.shift.call(arguments),
-            src = auxArray.shift.call(arguments),
-            key;
-
-        while( src ) {
-            for( key in src ) {
-                dest[key] = src[key];
-            }
-            src = auxArray.shift.call(arguments);
-        }
-
-        return dest;
-    }
-
 	function _isType (type) {
         return function (o) {
             return (typeof o === type);
@@ -71,7 +55,7 @@
         };
     }
 
-    function key (o, fullKey, value){
+    function _key (o, fullKey, value){
         if(! o instanceof Object) return false;
         var oKey, keys = fullKey.split('.');
         if(value !== undefined) {
@@ -98,89 +82,67 @@
         }
     }
 
-    function extend () {
-        if( arguments.length > 1 ) {
-            var target = [].shift.call(arguments), o = [].shift.call(arguments);
-
-            while( o ) {
-                _extend(target, o);
-                o = [].shift.call(arguments);
-            }
-        }
-    }
-
     var RE_$$ = /^\$\$/,
-        auxArray = [];
+        arrayShift = [].shift;
 
-        function _extendByType (orig, sanitize) {
-            if( orig instanceof Array ) {
-                return _deepExtend([], orig, sanitize);
-            } else if( orig instanceof Object ) {
-                return _deepExtend({}, orig, sanitize);
-            }
-            return orig;
-        }
+        function _merge () {
+            var dest = arrayShift.call(arguments),
+                src = arrayShift.call(arguments),
+                i, len, key, keys;
 
-        function _deepExtend (dest, orig, sanitize) {
+            while( src ) {
 
-            if( dest === undefined ) {
-
-                return _extendByType(orig);
-
-            }
-
-            if( orig instanceof Array ) {
-
-                if( !dest instanceof Array ) {
-                    return _deepExtend([], orig, sanitize);
+                if( typeof dest !== typeof src ) {
+                    dest = ( src instanceof Array ) ? [] : ( src instanceof Object ? {} : src );
                 }
 
-                for( var i = 0, len = orig.length; i < len; i++ ) {
+                if( src instanceof Object ) {
 
-                    if( dest[i] ) {
-                        dest[i] = _deepExtend(dest[i], orig[i], sanitize);
-                    } else {
-                        dest.push(_extendByType(orig[i]));
+                    keys = Object.keys(src);
+                    for( i = 0, len = keys.length ; i < len ; i++ ) {
+                        key = keys[i];
+                        if( src[key] !== undefined ) {
+                            if( typeof dest[key] !== typeof src[key] ) {
+                                dest[key] = _merge(undefined, src[key]);
+                            } else if( dest[key] instanceof Array ) {
+                                [].push.apply(dest[key], src[key]);
+                            } else if( dest[key] instanceof Object ) {
+                                dest[key] = _merge(dest[key], src[key]);
+                            } else {
+                                dest[key] = src[key];
+                            }
+                        }
                     }
                 }
-
-            } else if( orig instanceof Object ) {
-
-                if( !dest instanceof Object ) {
-                    return _deepExtend({}, orig, sanitize);
-                }
-
-                for( var key in orig ) {
-                    if( !sanitize || !RE_$$.test(key) ) {
-
-                        dest[key] = _deepExtend(dest[key], orig[key], sanitize);
-                    }
-                }
+                src = arrayShift.call(arguments);
             }
 
             return dest;
         }
 
-        function deepExtend () {
+        function _extend () {
+            var dest = arrayShift.call(arguments),
+                src = arrayShift.call(arguments),
+                i, len, key, keys;
 
-            if( arguments.length < 2 ) {
-                return arguments[0];
+            while( src ) {
+                keys = Object.keys(src);
+                for( i = 0, len = keys.length ; i < len ; i++ ) {
+                    key = keys[i];
+                    if( typeof dest[key] !== typeof src[key] ) {
+                        dest[key] = src[key];
+                    } else {
+                        dest[key] = src[key];
+                    }
+                }
+                src = arrayShift.call(arguments);
             }
 
-            var first = auxArray.shift.apply(arguments),
-                next = auxArray.shift.apply(arguments);
-
-            while( next ) {
-                _deepExtend(first, next);
-                next = auxArray.shift.apply(arguments);
-            }
-
-            return first;
+            return dest;
         }
 
-        function sanitize (obj) {
-
-            return _deepExtend({}, obj, true);
+        function _copy (o) {
+            return _merge(undefined, o);
         }
 
 
@@ -320,10 +282,13 @@
         isRegExp: _instanceOf(RegExp),
 		isObject: function (myVar,type){ if( myVar instanceof Object ) return ( type === 'any' ) ? true : ( typeof myVar === (type || 'object') ); else return false; },
 
-		key: key,
+		key: _key,
     	keys: Object.keys,
 
-    	extend: extend,
+        extend: _extend,
+    	merge: _merge,
+        copy: _copy,
+
         matchAll: matchAll,
         matchAny: matchAny,
         find: find,
@@ -331,14 +296,7 @@
 
         joinPath: joinPath,
 
-        sanitize: sanitize,
-        merge: deepExtend,
-        copy: function (o) {
-            if( o instanceof Array ) {
-                return deepExtend([], o);
-            }
-            return deepExtend({}, o);
-        },
+        // sanitize: sanitize,
 
         each: each,
         indexOf: indexOf,
@@ -380,7 +338,7 @@
         return new Chain(value);
     }
 
-    extend(_, _Funcs);
+    _extend(_, _Funcs);
 
 	return _;
 
