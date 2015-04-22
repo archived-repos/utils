@@ -1,5 +1,5 @@
 /*
- * css.js
+ * utils.js
  *
  * The MIT License (MIT)
  * 
