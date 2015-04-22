@@ -88,7 +88,7 @@
         function _merge () {
             var dest = arrayShift.call(arguments),
                 src = arrayShift.call(arguments),
-                i, len, key, keys;
+                key;
 
             while( src ) {
 
@@ -98,9 +98,7 @@
 
                 if( src instanceof Object ) {
 
-                    keys = Object.keys(src);
-                    for( i = 0, len = keys.length ; i < len ; i++ ) {
-                        key = keys[i];
+                    for( key in src ) {
                         if( src[key] !== undefined ) {
                             if( typeof dest[key] !== typeof src[key] ) {
                                 dest[key] = _merge(undefined, src[key]);
@@ -123,12 +121,10 @@
         function _extend () {
             var dest = arrayShift.call(arguments),
                 src = arrayShift.call(arguments),
-                i, len, key, keys;
+                key;
 
             while( src ) {
-                keys = Object.keys(src);
-                for( i = 0, len = keys.length ; i < len ; i++ ) {
-                    key = keys[i];
+                for( key in src) {
                     if( typeof dest[key] !== typeof src[key] ) {
                         dest[key] = src[key];
                     } else {
