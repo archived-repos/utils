@@ -109,7 +109,6 @@
         }
     }
 
-
     var RE_$$ = /^\$\$/,
         auxArray = [];
 
@@ -184,6 +183,19 @@
             return _deepExtend({}, obj, true);
         }
 
+
+    function joinPath () {
+        var path = (arguments[0] || '').replace(/\/$/, '');
+
+        for( var i = 1, len = arguments.length - 1 ; i < len ; i++ ) {
+            path += '/' + arguments[len].replace(/^\/|\/$/, '');
+        }
+        if( len ) {
+            path += arguments[len] ? ( '/' + arguments[len].replace(/^\//, '') ) : '';
+        }
+
+        return path;
+    }
 
     function _proccessPipe (pipe, args) {
         var result = pipe[0].apply(null, args);
@@ -316,6 +328,8 @@
         matchAny: matchAny,
         find: find,
         filter: filter,
+
+        joinPath: joinPath,
 
         sanitize: sanitize,
         merge: deepExtend,
