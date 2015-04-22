@@ -1,6 +1,6 @@
 {
     "name": "jstool-utils",
-    "version": "0.0.20",
+    "version": "0.0.21",
     "description": "utils jstool example",
     "main": "utils.js",
     "scripts": {
