@@ -71,30 +71,30 @@
         };
     }
 
-    function key (o,full_key,value){
+    function key (o, fullKey, value){
         if(! o instanceof Object) return false;
-        var oKey, keys = full_key.split('.');
+        var oKey, keys = fullKey.split('.');
         if(value !== undefined) {
             if(keys.length) {
                 oKey = keys.shift();
-                var next_key = keys.shift();
-                while( next_key ) {
+                var nextKey = keys.shift();
+                while( nextKey ) {
                     if( !o[oKey] ) o[oKey] = {};
                     o = o[oKey];
-                    oKey = next_key;
-                    next_key = keys.shift();
+                    oKey = nextKey;
+                    nextKey = keys.shift();
                 }
                 o[oKey] = value;
                 return value;
             }
             return false;
         } else {
-            for(var k=0, len = keys.length, in_keys = o || {}; k < len ; k++ ) {
+            for(var k = 0, len = keys.length, inKeys = o || {}; k < len ; k++ ) {
                 oKey = keys[k];
-                if( oKey in in_keys ) in_keys = in_keys[keys[k]] || {};
+                if( oKey in inKeys ) inKeys = inKeys[keys[k]] || {};
                 else return false;
             }
-            return in_keys;
+            return inKeys;
         }
     }
 
@@ -111,7 +111,7 @@
 
 
     var RE_$$ = /^\$\$/,
-            auxArray = [];
+        auxArray = [];
 
         function _extendByType (orig, sanitize) {
             if( orig instanceof Array ) {
@@ -177,46 +177,6 @@
             }
 
             return first;
-        }
-
-        function deepAssign(dest, orig){
-            
-            if( orig === undefined ) {
-
-                return undefined;
-
-            }
-
-            if( orig instanceof Array ) {
-
-                for( var i = 0, len = orig.length; i < len; i++ ) {
-                    if( dest[i] ) {
-                        dest[i] = deepAssign(dest[i], orig[i]);
-                    } else {
-                        dest.push( deepAssign(dest[i], orig[i]) );
-                    }
-                }
-
-                dest.splice(i);
-
-            } else if( orig instanceof Object ) {
-
-                for( var key in orig ) {
-                    dest[key] = deepAssign(dest[key], orig[key]);
-                }
-
-                for( var keyD in dest ) {
-                    if( orig[keyD] === undefined ){
-                        delete dest[keyD];
-                    }
-                }
-            }
-            else {
-                dest = orig;
-            }
-
-            return dest;
-
         }
 
         function sanitize (obj) {
@@ -358,8 +318,13 @@
         filter: filter,
 
         sanitize: sanitize,
-        deepExtend: deepExtend,
-        deepAssign: deepAssign,
+        merge: deepExtend,
+        copy: function (o) {
+            if( o instanceof Array ) {
+                return deepExtend([], o);
+            }
+            return deepExtend({}, o);
+        },
 
         each: each,
         indexOf: indexOf,

@@ -58,13 +58,13 @@ describe('jstool-utils: utils.js', function () {
 		expect( JSON.stringify(o) ).toBe('{"foo":"bar","crash":"test","test":"dummy"}');
 	});
 
-	it('_.deepExtend', function () {
+	it('_.merge', function () {
 
 		var o = {};
 
-		_.extend(o, { crash: 'test', test: { dummy: 'oO' } }, { test: { foo: 'bar' } });
+		_.merge(o, { crash: 'test', test: { dummy: 'oO' } }, { test: { foo: 'bar' } });
 
-		// expect( JSON.stringify(o) ).toBe('{"crash":"test","test":{"dummy":"oO","foo":"bar"}}');
+		expect( JSON.stringify(o) ).toBe('{"crash":"test","test":{"dummy":"oO","foo":"bar"}}');
 	});
 
 });
