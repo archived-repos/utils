@@ -1,6 +1,7 @@
-[![npm version](https://badge.fury.io/js/jstool-utils.svg)](http://badge.fury.io/js/jstool-utils) [![Build Status](https://travis-ci.org/jstools/utils.js.svg?branch=master)](https://travis-ci.org/jstools/utils.js) 
+[![npm version](https://badge.fury.io/js/jn-utils.svg)](http://badge.fury.io/js/jn-utils)
+[![Build Status](https://travis-ci.org/jstools/jn-utils.svg?branch=master)](https://travis-ci.org/jstools/jn-utils)
 
-jstool-utils
+jn-utils
 ============
 
 Underscore object '_' with useful functions

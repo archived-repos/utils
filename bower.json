@@ -1,8 +1,8 @@
 {
-    "name": "jstool-utils",
+    "name": "jn-utils",
     "main": "utils.js",
     "version": "0.0.21",
-    "homepage": "https://github.com/jstools/utils",
+    "homepage": "https://github.com/jstools/jn-utils",
     "authors": [
         "Jesús Germade <jesus@germade.es>"
     ],

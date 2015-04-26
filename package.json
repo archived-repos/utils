@@ -1,5 +1,5 @@
 {
-    "name": "jstool-utils",
+    "name": "jn-utils",
     "version": "0.0.21",
     "description": "utils jstool example",
     "main": "utils.js",
@@ -8,7 +8,7 @@
     },
     "repository": {
         "type": "git",
-        "url": "https://github.com/jstools/utils.js.git"
+        "url": "https://github.com/jstools/jn-utils.git"
     },
     "keywords": [
         "javascript",
@@ -18,9 +18,9 @@
     "author": "Jesús Manuel Germade Castiñeiras <jesus@germade.es>",
     "license": "MIT",
     "bugs": {
-        "url": "https://github.com/jstools/utils.js/issues"
+        "url": "https://github.com/jstools/jn-utils/issues"
     },
-    "homepage": "https://github.com/jstools/utils.js",
+    "homepage": "https://github.com/jstools/jn-utils",
     "devDependencies": {
         "grunt": "^0.4.5",
         "grunt-contrib-jshint": "^0.10.0",
