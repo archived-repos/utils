@@ -1,8 +1,17 @@
-[![npm version](https://badge.fury.io/js/jn-utils.svg)](http://badge.fury.io/js/jn-utils)
-[![Build Status](https://travis-ci.org/jstools/jn-utils.svg?branch=master)](https://travis-ci.org/jstools/jn-utils)
+jsTools: utils
+================
+[![Bower version](https://badge.fury.io/bo/jstools-utils.svg)](http://badge.fury.io/bo/jstools-utils)
+[![npm version](https://badge.fury.io/js/jstools-utils.svg)](http://badge.fury.io/js/jstools-utils)
+[![Build Status](https://travis-ci.org/jstools/utils.svg?branch=master)](https://travis-ci.org/jstools/utils)
 
-jn-utils
-============
+```.sh
+npm install jstools-utils --save
+```
+or
+```.sh
+bower install jstools-utils --save
+```
+
 
 Underscore object '_' with useful functions
 
