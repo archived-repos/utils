@@ -17,20 +17,41 @@ Usage
 Underscore object '_' with useful functions
 
 ``` js
-_.isFunction(object)
+// comparators
+  _.isFunction(object)
+  _.isString(object)
+  _.isNumber(object)
+  _.isArray(object)
+  _.isDate(object)
+  _.isRegExp(object)
+  _.isObject(object)
 
-_.isObject(object)
+// key handling
+  _.key(key, value)
+  _.keys(object)  // alias of Object.keys
 
-_.isString(object)
+// object extend and copy
+  _.extend(dest, obj1, obj2)
+  _.merge(dest, obj1, obj2)
+  _.copy(obj)
 
-_.isArray(object)
+// object matches
+  _.matchAll(obj, filter)
+  _.matchAny(obj, filter)
 
-_.isNumber(object)
+// list filter
+  _.find(list, filters) // returns first match in a list
+  _.filter(list, filters)
 
-_.key()
+// path handling
+  _.joinPath(path1, path2, path3)
 
-_.keys(object)  // Object.keys() alias
+  _.each(list or object, iterator)
+  _.indexOf(list, value or iterator)
+  _.remove(list, value or iterator)
 
-_.extend(object, source)
+// pipe and chainig
+  _.pipe()
+  _.chain()
 
 ```

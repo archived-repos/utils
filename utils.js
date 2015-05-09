@@ -273,19 +273,19 @@
     }
 
     var _Funcs = {
-		isFunction: _isType('function'),
+				isFunction: _isType('function'),
         isString: _isType('string'),
         isNumber: _isType('number'),
         isArray: _instanceOf(Array),
         isDate: _instanceOf(Date),
         isRegExp: _instanceOf(RegExp),
-		isObject: function (myVar,type){ if( myVar instanceof Object ) return ( type === 'any' ) ? true : ( typeof myVar === (type || 'object') ); else return false; },
+				isObject: function (myVar,type){ if( myVar instanceof Object ) return ( type === 'any' ) ? true : ( typeof myVar === (type || 'object') ); else return false; },
 
-		key: _key,
-    	keys: Object.keys,
+				key: _key,
+    		keys: Object.keys,
 
         extend: _extend,
-    	merge: _merge,
+    		merge: _merge,
         copy: _copy,
 
         matchAll: matchAll,
@@ -294,8 +294,6 @@
         filter: filter,
 
         joinPath: joinPath,
-
-        // sanitize: sanitize,
 
         each: each,
         indexOf: indexOf,
