@@ -1,5 +1,5 @@
 {
-    "name": "jstools-utils",
+    "name": "jengine-utils",
     "version": "0.0.23",
     "description": "utils jstool example",
     "main": "utils.js",
