@@ -133,22 +133,18 @@
         }
 
         function _extend () {
-            var dest = arrayShift.call(arguments),
-                src = arrayShift.call(arguments),
-                key;
+          var dest = arrayShift.call(arguments),
+              src = arrayShift.call(arguments),
+              key;
 
-            while( src ) {
-                for( key in src) {
-                    if( typeof dest[key] !== typeof src[key] ) {
-                        dest[key] = src[key];
-                    } else {
-                        dest[key] = src[key];
-                    }
-                }
-                src = arrayShift.call(arguments);
+          while( src ) {
+            for( key in src) {
+              dest[key] = src[key];
             }
+            src = arrayShift.call(arguments);
+          }
 
-            return dest;
+          return dest;
         }
 
         function _copy (o) {
