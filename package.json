@@ -1,9 +1,10 @@
 {
   "name": "jengine-utils",
-  "version": "0.0.26",
+  "version": "0.0.27",
   "description": "utils jstool example",
   "main": "utils.js",
   "scripts": {
+    "pretest": "npm install",
     "test": "grunt test",
     "posttest": "grunt uglify:min"
   },

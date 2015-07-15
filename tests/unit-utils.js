@@ -59,6 +59,171 @@
 
 	});
 
+	describe('find', function () {
+
+		var item0 = { foo: 'foo', value: 1, common: 1 },
+				item1 = { foo: 'bar', value: 2, common: 1 },
+				item2 = { foo: 'foobar', value: 3, common: 2 };
+
+		var list = [item0, item1, item2];
+
+		it('_.find', function () {
+			expect( _.find(list, { foo: 'bar' }).value ).toBe(2);
+		});
+
+		it('_.find mismatch', function () {
+			expect( _.find(list, { foo: 'bar', value: 0 }) ).toBeNull();
+		});
+
+		it('_.find all keys', function () {
+			expect( _.find(list, { foo: 'bar', value: 2 }).value ).toBe(2);
+		});
+
+		it('_.find callback', function () {
+			expect( _.find(list, function (item) {
+				return item.value === 3;
+			}) ).toBe(item2);
+		});
+
+		it('_.find callback thisArg', function () {
+			expect( _.find(list, function (item) {
+				return item.value === this.value;
+			}, { value: 3 }) ).toBe(item2);
+		});
+
+		it('_.find callback thisArg', function () {
+			expect( _.find(list, function (item) {
+				return item.value === this.valueOf();
+			}, 3) ).toBe(item2);
+		});
+
+	});
+
+	describe('filter', function () {
+
+		var item0 = { foo: 'foo', value: 1, common: 1 },
+				item1 = { foo: 'bar', value: 2, common: 1 },
+				item2 = { foo: 'foobar', value: 3, common: 2 };
+
+		var list = [item0, item1, item2];
+
+		it('_.find', function () {
+			expect( _.filter(list, { foo: 'bar' })[0] ).toBe(item1);
+		});
+
+		it('_.find common', function () {
+			expect( JSON.stringify( _.filter(list, { common: 1 }) ) ).toBe('[{"foo":"foo","value":1,"common":1},{"foo":"bar","value":2,"common":1}]');
+		});
+
+		it('_.find callback', function () {
+			expect( JSON.stringify( _.filter(list, function (item) {
+				return item.value < 3;
+			}) ) ).toBe('[{"foo":"foo","value":1,"common":1},{"foo":"bar","value":2,"common":1}]');
+		});
+
+		it('_.find callback with thisArg', function () {
+			expect( JSON.stringify( _.filter(list, function (item) {
+				return item.value < this;
+			}, 3) ) ).toBe('[{"foo":"foo","value":1,"common":1},{"foo":"bar","value":2,"common":1}]');
+		});
+
+	});
+
+	describe('indexOf', function () {
+
+		var list = [{ foo: 'foo' }, { foo: 'bar' }, { foo: 'foobar' }];
+
+		it('_.indexOf value missing', function () {
+			var o = { foo: 'bar' };
+
+			expect( _.indexOf(list, o) ).toBe(-1);
+		});
+
+		it('_.indexOf value found', function () {
+			var o = { foo: 'bar' };
+
+			list.push(o);
+
+			expect( _.indexOf(list, o) ).toBe(3);
+		});
+
+		it('_.indexOf single value missing', function () {
+			var numList = [1,2,3,4,5,6,7,8,9];
+
+			expect( _.indexOf(numList, 10) ).toBe(-1);
+		});
+
+		it('_.indexOf single value found first', function () {
+			var numList = [1,2,3,4,5,6,7,8,9];
+
+			expect( _.indexOf(numList, 1) ).toBe(0);
+		});
+
+		it('_.indexOf single value found last', function () {
+			var numList = [1,2,3,4,5,6,7,8,9];
+
+			expect( _.indexOf(numList, 9) ).toBe(8);
+		});
+
+		it('_.indexOf callback missing', function () {
+			expect( _.indexOf(list, function (item) {
+				return item && item.foo === 'wrong-value';
+			}) ).toBe(-1);
+		});
+
+		it('_.indexOf callback found', function () {
+			expect( _.indexOf(list, function (item) {
+				return item && item.foo === 'bar';
+			}) ).toBe(1);
+		});
+
+		it('_.indexOf callback with thisArg found', function () {
+			expect( _.indexOf(list, function (item) {
+				return item && item.foo === this.key;
+			}, { key: 'bar' }) ).toBe(1);
+		});
+
+	});
+
+	describe('indexBy', function () {
+
+		var list = [{ foo: 'foo' }, { foo: 'bar' }, { foo: 'foobar' }];
+
+		it('_.indexBy string key', function () {
+			expect( JSON.stringify(_.indexBy(list, 'foo')) ).toBe('{"foo":{"foo":"foo"},"bar":{"foo":"bar"},"foobar":{"foo":"foobar"}}');
+		});
+
+		it('_.indexBy callback', function () {
+			expect( JSON.stringify(_.indexBy(list, function (item) {
+				return '_' + item.foo;
+			})) ).toBe('{"_foo":{"foo":"foo"},"_bar":{"foo":"bar"},"_foobar":{"foo":"foobar"}}');
+		});
+
+		it('_.indexBy callback with thisArg', function () {
+			expect( JSON.stringify(_.indexBy(list, function (item) {
+				return this + item.foo;
+			}, '_')) ).toBe('{"_foo":{"foo":"foo"},"_bar":{"foo":"bar"},"_foobar":{"foo":"foobar"}}');
+		});
+
+	});
+
+	describe('_.pluck', function () {
+
+		var list = [{ foo: 'foo' }, { foo: 'bar' }, { foo: 'foobar' }];
+
+		it('_.pluck', function () {
+			expect( _.pluck(list, 'foo').toString() ).toBe('foo,bar,foobar');
+		});
+
+		// _.pluck callback is an alias of map
+		it('_.pluck callback', function () {
+			expect( _.pluck(list, function (item) {
+				return this + item.foo;
+			}, '_').toString() ).toBe('_foo,_bar,_foobar');
+		});
+
+	});
+
 	describe('Object extend functions', function () {
 
 		it('_.extend', function () {

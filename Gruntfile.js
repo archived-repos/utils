@@ -65,7 +65,11 @@ module.exports = function(grunt) {
     },
 
     jshint: {
-      all: ['Gruntfile.js', '<%= pkg.main %>']
+      options: {
+          jshintrc: '.jshintrc'
+      },
+      app: ['<%= pkg.main %>'],
+      gruntfile: ['Gruntfile.js']
     }
 
   });
